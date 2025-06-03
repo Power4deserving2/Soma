@@ -14,6 +14,7 @@ def main_menu():
     print("4. Add a new tutor")
     print("5. Add a new assignment")
     print("6. Submit an assignment")
+    print("7. View all submissions")
     print("0. Exit")
 
     choice = input("Enter your choice: ")
@@ -30,6 +31,8 @@ def main_menu():
         add_assignment()
     elif choice == "6":
         submit_assignment()
+    elif choice == "7":
+        view_submissions()
     elif choice == "0":
         print("Goodbye!")
         exit()
@@ -149,6 +152,18 @@ def submit_assignment():
     session.commit()
     session.close()
     print("\nSubmission recorded successfully.")
+
+def view_submissions():
+    session = Session()
+    submissions = session.query(Submission).all()
+
+    print("\nSubmissions:")
+    for sub in submissions:
+        student = session.query(Student).get(sub.student_id)
+        assignment = session.query(Assignment).get(sub.assignment_id)
+        print(f"- {student.name} submitted '{assignment.title}' | Score: {sub.score} | Date: {sub.submitted_at.strftime('%Y-%m-%d')}")
+    
+    session.close()
 
 if __name__ == "__main__":
     main_menu()
