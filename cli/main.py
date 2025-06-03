@@ -13,6 +13,7 @@ def main_menu():
     print("3. Add a new student")
     print("4. Add a new tutor")
     print("5. Add a new assignment")
+    print("6. Submit an assignment")
     print("0. Exit")
 
     choice = input("Enter your choice: ")
@@ -27,6 +28,8 @@ def main_menu():
         add_tutor()
     elif choice == "5":
         add_assignment()
+    elif choice == "6":
+        submit_assignment()
     elif choice == "0":
         print("Goodbye!")
         exit()
@@ -115,6 +118,37 @@ def add_assignment():
     session.commit()
     session.close()
     print(f"\nAssignment '{title}' added successfully!")
+
+def submit_assignment():
+    session = Session()
+
+    # List students
+    students = session.query(Student).all()
+    print("\nStudents:")
+    for s in students:
+        print(f"{s.id}: {s.name}, Grade {s.grade_level}")
+
+    student_id = int(input("Enter student ID: "))
+
+    # List assignments
+    assignments = session.query(Assignment).all()
+    print("\nAssignments:")
+    for a in assignments:
+        print(f"{a.id}: {a.title} (Grade {a.grade_level})")
+
+    assignment_id = int(input("Enter assignment ID: "))
+    score = int(input("Enter score (0-100): "))
+
+    submission = Submission(
+        student_id=student_id,
+        assignment_id=assignment_id,
+        score=score
+    )
+
+    session.add(submission)
+    session.commit()
+    session.close()
+    print("\nSubmission recorded successfully.")
 
 if __name__ == "__main__":
     main_menu()
