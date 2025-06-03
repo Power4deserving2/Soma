@@ -7,6 +7,7 @@ from models.student import Student
 from models.tutor import Tutor
 
 def main_menu():
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("\nWelcome to Soma 📚")
     print("1. View all students")
     print("2. View all tutors")
