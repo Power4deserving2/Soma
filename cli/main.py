@@ -10,7 +10,8 @@ def main_menu():
     print("\nWelcome to Soma 📚")
     print("1. View all students")
     print("2. View all tutors")
-    print("3. Add a new student")  
+    print("3. Add a new student")
+    print("4. Add a new tutor")
     print("0. Exit")
 
     choice = input("Enter your choice: ")
@@ -21,6 +22,8 @@ def main_menu():
         view_tutors()
     elif choice == "3":
         add_student()
+    elif choice == "4":
+        add_tutor()
     elif choice == "0":
         print("Goodbye!")
         exit()
@@ -65,6 +68,23 @@ def add_student():
     session.commit()
     session.close()
     print(f"\nStudent {name} added successfully!")
+
+def add_tutor():
+    session = Session()
+    print("\nEnter tutor details:")
+    name = input("Name: ")
+    subject = input("Subject: ")
+    school = input("School Name: ")
+
+    new_tutor = Tutor(
+        name=name,
+        subject=subject,
+        school_name=school
+    )
+    session.add(new_tutor)
+    session.commit()
+    session.close()
+    print(f"\nTutor {name} added successfully!")
 
 if __name__ == "__main__":
     main_menu()
